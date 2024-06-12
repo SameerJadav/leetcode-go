@@ -1,23 +1,22 @@
 package solutions
 
 func LongestConsecutive(nums []int) int {
-	var longest int
-	numSet := make(map[int]bool)
+	var res int
+	numSet := make(map[int]bool, len(nums))
 	for _, num := range nums {
 		numSet[num] = true
 	}
 	for num := range numSet {
-		if _, ok := numSet[num-1]; !ok {
-			currentNum := num
-			currentStreak := 1
-			for numSet[currentNum+1] {
-				currentNum++
-				currentStreak++
-			}
-			if currentStreak > longest {
-				longest = currentStreak
-			}
+		if numSet[num-1] {
+			continue
+		}
+		sequence := 1
+		for numSet[num+sequence] {
+			sequence++
+		}
+		if sequence > res {
+			res = sequence
 		}
 	}
-	return longest
+	return res
 }
